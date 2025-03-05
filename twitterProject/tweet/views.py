@@ -66,4 +66,8 @@ def register(request):
 
 def SearchResults(request):
     tweets = Tweet.objects.all().order_by('-created_at')
+    query = request.GET.get("q")
+    tweets = Tweet.objects.all().filter(
+        text = query, user = query
+    )
     return render(request,'search_results.html', {'tweets':tweets} )
