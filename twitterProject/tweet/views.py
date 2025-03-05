@@ -63,3 +63,7 @@ def register(request):
     else:
         form  = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form':form})
+
+def SearchResults(request):
+    tweets = Tweet.objects.all().order_by('-created_at')
+    return render(request,'search_results.html', {'tweets':tweets} )
