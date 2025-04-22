@@ -4,7 +4,7 @@ from .forms import TweetForm, UserRegistrationForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -68,5 +68,7 @@ def SearchResults(request):
     search_term = ''
     if 'q' in request.GET:
         search_term = request.GET['q']
-        tweets = Tweet.objects.all().filter(text__icontains = search_term)
+        tweets = Tweet.objects.all().filter(
+            Q(text__icontains=search_term) | Q(user__username__icontains=search_term)
+        )
     return render(request,'search_results.html', {'tweets':tweets} )
